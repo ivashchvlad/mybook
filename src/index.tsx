@@ -1,30 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
 import store from './redux/store'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom"
-import Books from "./components/Books"
+import AppRouter from './routes/AppRouter'
+import FirebaseContext, { Firebase } from './components/FirebaseContext'
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <Switch>
-          <Route path="/books">
-            <Books />
-          </Route>
-          <Route path="/">
-            <App />
-          </Route>
-        </Switch>
-      </Router>
+      <FirebaseContext.Provider value={new Firebase()}>
+        <AppRouter />
+      </FirebaseContext.Provider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

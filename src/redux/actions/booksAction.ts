@@ -44,3 +44,25 @@ export function fetchBooks(): AppThunk{
         }).catch(error => fetchBooksError(error));
     }
 }
+
+export function searchBooks(search: string): AppThunk{
+    return (dispatch) => {
+        dispatch(fetchBooksPending);
+        axios.get('https://reststop.randomhouse.com/resources/works/', {
+            params: {
+                start: 0,
+                max: 10,
+                expandLevel: 1,
+                search,
+            },
+            headers: {
+                'Accept': 'application/json',
+            }
+        }).then((res) => {
+            if (!res.data.work) {
+                return;
+            }
+            dispatch(fetchBooksSuccess(res.data.work))
+        }).catch(error => fetchBooksError(error));
+    }
+}
