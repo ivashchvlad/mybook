@@ -11,11 +11,14 @@ import SignIn from './SignIn'
 import SignUp from './SignUp'
 import Account from './Account'
 import PassForget from './PassForget'
+import Navigation from '../components/Navigation'
+import {withAuthentification} from '../components/AuthUserContext'
 
 
-export default function AppRouter() {
+function AppRouter() {
     return (
         <Router>
+            <Navigation />
             <Switch>
                 <Route path="/books">
                     <Books />
@@ -39,3 +42,5 @@ export default function AppRouter() {
         </Router>
     )
 }
+
+export default withAuthentification(AppRouter)

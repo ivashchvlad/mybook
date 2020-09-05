@@ -8,6 +8,7 @@ import AppRouter from './routes/AppRouter'
 import FirebaseContext, { Firebase } from './components/FirebaseContext'
 
 
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

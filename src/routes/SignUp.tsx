@@ -30,8 +30,8 @@ function SignUp({firebase, history}: any) {
       .catch((error: Error) => {
         setError(error);
       });
-    e.preventDefault();
-      };
+        e.preventDefault();
+    };
 
     return (
         <div>
