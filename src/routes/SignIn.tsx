@@ -2,6 +2,7 @@ import React, { useState, useEffect, FormEvent } from 'react'
 import { withRouter } from 'react-router-dom'
 import { withFirebase, Firebase } from '../components/FirebaseContext'
 import { History } from 'history'
+import { PasswordForgetLink } from './PassForget'
 
 interface myProps {
     firebase: Firebase,
@@ -52,10 +53,11 @@ function SignIn({ firebase, history }: myProps) {
                 />
                 <button disabled={isInvalid} type="submit">
                     Sign In
-        </button>
+                </button>
 
                 {error && <p>{error.message}</p>}
             </form>
+            <PasswordForgetLink />
         </div>
     )
 }

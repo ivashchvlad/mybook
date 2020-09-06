@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-export default function Account() {
-    return (
-        <div>
-            
-        </div>
-    )
-}
+import PassForget from './PassForget';
+import PassChange from './PassChange';
+
+const Account = () => (
+    <div>
+        <h1>Account Page</h1>
+        <PassForget />
+        <PassChange />
+    </div>
+);
+
+export default Account;
