@@ -1,7 +1,9 @@
 import { createStore, applyMiddleware, combineReducers, Action } from 'redux'
 import thunk, { ThunkAction } from 'redux-thunk'
 
-import bookReducer from './reducers/booksReducer';
+import bookReducer from './reducers/booksReducer'
+import sessionReducer from './reducers/sessionReducer'
+import userReducer from './reducers/userReducer'
 
 function counterReducer(state = 0, action: any) {
     switch (action.type) {
@@ -16,7 +18,9 @@ function counterReducer(state = 0, action: any) {
 
 const rootReducer = combineReducers({
     counter: counterReducer,
-    books: bookReducer
+    books: bookReducer,
+    user: userReducer,
+    session: sessionReducer,
 }
 )
 

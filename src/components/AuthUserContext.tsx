@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import { withFirebase } from '../components/FirebaseContext'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+
 
 const AuthUserContext = React.createContext(undefined);
 
 const withAuthentification = (Component: any) => {
-    function WithAuth (props: any) {
+    function WithAuth(props: any) {
         const [authUser, setAuthUser] = useState()
         useEffect(() => {
             props.firebase.auth.onAuthStateChanged((authUser: any) => {
@@ -20,7 +23,14 @@ const withAuthentification = (Component: any) => {
             </AuthUserContext.Provider>
         )
     }
-    return withFirebase(WithAuth);
+    const mapDispatchToProps = (dispatch: any) => ({
+        onSetAuthUser: (authUser: any) =>
+            dispatch({ type: 'AUTH_USER_SET', authUser }),
+    });
+    return compose(
+        withFirebase,
+        connect(null, mapDispatchToProps)
+    )(WithAuth);
 }
 
 const withAuthUser = (Component: any) => (props: any) => (
