@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { Route, RouteProps } from 'react-router-dom'
 
-interface IPageProps extends RouteProps {
+interface PageProps extends RouteProps {
     title: string;
 }
 
-const Page: FunctionComponent<IPageProps> = props => {
+const Page: FunctionComponent<PageProps> = props => {
     useEffect(() => {
         document.title = "MyBookList | " + props.title;
     });

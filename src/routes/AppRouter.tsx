@@ -5,6 +5,7 @@ import {
     Route,
 } from 'react-router-dom'
 import Page from './Page'
+import PrivatePage from './PrivatePage'
 import App from '../App'
 import Books from '../components/Books'
 import SignIn from './SignIn'
@@ -29,9 +30,8 @@ function AppRouter() {
                 <Page path="/signup" title="SignUp">
                     <SignUp />
                 </Page>
-                <Page path="/account" title="Account">
-                    <Account />
-                </Page>
+                <PrivatePage path="/account" title="Account"
+                component={<Account />} />
                 <Page path="/passforget" title="Forget Password">
                     <PassForget />
                 </Page>

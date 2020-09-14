@@ -8,20 +8,15 @@ const AuthUserContext = React.createContext(undefined);
 
 const withAuthentification = (Component: any) => {
     function WithAuth(props: any) {
-        const [authUser, setAuthUser] = useState()
         useEffect(() => {
             props.firebase.auth.onAuthStateChanged((authUser: any) => {
-                authUser
-                    ? setAuthUser(authUser)
-                    : setAuthUser(undefined)
+                props.onSetAuthUser(authUser);
+            }, () => {
+                props.onSetAuthUser(null);
             });
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
-        return (
-            <AuthUserContext.Provider value={authUser}>
-                <Component {...props} />
-            </AuthUserContext.Provider>
-        )
+        return (<Component {...props} />)
     }
     const mapDispatchToProps = (dispatch: any) => ({
         onSetAuthUser: (authUser: any) =>
@@ -33,11 +28,18 @@ const withAuthentification = (Component: any) => {
     )(WithAuth);
 }
 
-const withAuthUser = (Component: any) => (props: any) => (
-    <AuthUserContext.Consumer>
-        {authUser => <Component authUser={authUser} {...props} />}
-    </AuthUserContext.Consumer>
-)
+const withAuthUser = (Component: any) => {
+    const mapStateToProps = (state: any) => ({
+        authUser: state.session.authUser,
+    })
+
+    return connect(mapStateToProps)((props: any) => (
+        <Component authUser={props.authUser} {...props} />
+    ))
+}
+
+
 
 export default AuthUserContext
 export { withAuthentification, withAuthUser }
+

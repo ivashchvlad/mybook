@@ -22,6 +22,10 @@ function SignUp({firebase, history}: any) {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
       firebase.doCreateUserWithEmailAndPassword(email, passwordOne)
       .then((authUser: any) => {
+        firebase.user(authUser.user.uid).set({
+          username,
+          email,
+        });
         setUsername('');
         setEmail('');
         setError(undefined);
@@ -29,6 +33,7 @@ function SignUp({firebase, history}: any) {
       })
       .catch((error: Error) => {
         setError(error);
+        console.log(error);
       });
         e.preventDefault();
     };
