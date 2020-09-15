@@ -1,4 +1,4 @@
-import { FETCH_BOOKS_ERROR, FETCH_BOOKS_PENDING, FETCH_BOOKS_SUCCESS } from '../types/bookTypes'
+import { FETCH_BOOKS_ERROR, FETCH_BOOKS_PENDING, FETCH_BOOKS_SUCCESS, FETCH_BOOK_SUCCESS } from '../types/bookTypes'
 import Book from '../../interfaces/Book'
 import { AppThunk } from "../store"
 import axios from "axios"
@@ -13,6 +13,14 @@ export function fetchBooksSuccess(books: Book[]) {
     return {
         type: FETCH_BOOKS_SUCCESS,
         books,
+    }
+}
+
+// adding single book to state
+export function fetchBookSuccess(book: Book) {
+    return {
+        type: FETCH_BOOK_SUCCESS,
+        book,
     }
 }
 
@@ -63,6 +71,22 @@ export function searchBooks(search: string): AppThunk{
                 return;
             }
             dispatch(fetchBooksSuccess(res.data.work))
+        }).catch(error => fetchBooksError(error));
+    }
+}
+
+export function getBookById(bookId: string): AppThunk {
+    return (dispatch) => {
+        dispatch(fetchBooksPending); 
+        axios.get(`https://reststop.randomhouse.com/resources/works/${bookId}`, {
+            headers: {
+                'Accept': 'application/json',
+            }
+        }).then((res) => {
+            if(!res.data) {
+                return;
+            }
+            dispatch(fetchBookSuccess(res.data))
         }).catch(error => fetchBooksError(error));
     }
 }

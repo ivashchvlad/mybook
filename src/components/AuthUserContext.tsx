@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { withFirebase } from '../components/FirebaseContext'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
