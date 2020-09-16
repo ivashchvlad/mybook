@@ -1,9 +1,13 @@
-import React, { useEffect, ChangeEvent} from 'react'
+import React, { useState, useEffect, ChangeEvent} from 'react'
 import { connect } from 'react-redux'
 import { fetchBooks as fetchBooksAction, searchBooks as searchBooksAction } from '../redux/actions/booksAction'
 import { RootState } from '../redux/store'
 import { bindActionCreators } from 'redux'
 import Book from '../interfaces/Book'
+import { withFirebase } from '../components/FirebaseContext'
+import { compose } from 'redux'
+import Firebase from '../firebase'
+import BookView from './BookView'
 
 interface MyPropType {
     books: Book[],
@@ -11,12 +15,21 @@ interface MyPropType {
     error: Error,
     fetchBooks: Function,
     searchBooks: Function,
+    firebase: Firebase,
 }
 
-function Books({ books, pending, error, fetchBooks, searchBooks }: MyPropType) {
+function Books({ searchBooks, firebase }: MyPropType) {
+    const [list, setList] = useState<any>();
 
     useEffect(()=> {
-        fetchBooks()
+        firebase.list("7hC2oIreSfL7Tyvazida").get().then((doc) => {
+            if (doc.exists) {
+                console.log(`${doc.id} => ${doc.data()}`);
+                setList(doc.data());
+            } else
+                console.log('doc not found')
+        })
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -33,8 +46,8 @@ function Books({ books, pending, error, fetchBooks, searchBooks }: MyPropType) {
                 <input type="search" onChange={handleChange}/>
             </form>
             { 
-                !!books.length && books.map(book => (
-                    <h2 key={book.workid}>{book.titleshort}</h2>
+                !!list && list.books.map((bookId: any) => (
+                    <BookView id={bookId} key={bookId}/>
                 )) 
             }
         </div>
@@ -51,4 +64,7 @@ const mapDispatchToProps = (dispatch: any) => bindActionCreators({
     searchBooks: searchBooksAction,
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Books)
+export default compose(
+    withFirebase,
+    connect(mapStateToProps, mapDispatchToProps)
+)(Books)

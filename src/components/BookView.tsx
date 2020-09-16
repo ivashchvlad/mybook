@@ -21,7 +21,7 @@ function BookView({book, id, getBookById}: MyOwnProps) {
             { !!book && (
                 <>
                     <h3>{book.titleweb}</h3>
-                    <h3>{book.authorweb}</h3>
+                    <h4>{book.authorweb}</h4>
                 </>
             )}
         </div>
