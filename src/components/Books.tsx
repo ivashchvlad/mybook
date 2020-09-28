@@ -1,6 +1,6 @@
-import React, { useState, useEffect, ChangeEvent} from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { fetchBooks as fetchBooksAction, searchBooks as searchBooksAction } from '../redux/actions/booksAction'
+import { fetchBooks as fetchBooksAction } from '../redux/actions/booksAction'
 import { RootState } from '../redux/store'
 import { bindActionCreators } from 'redux'
 import Book from '../interfaces/Book'
@@ -14,11 +14,10 @@ interface MyPropType {
     pending: boolean,
     error: Error,
     fetchBooks: Function,
-    searchBooks: Function,
     firebase: Firebase,
 }
 
-function Books({ searchBooks, firebase }: MyPropType) {
+function Books({ firebase }: MyPropType) {
     const [list, setList] = useState<any>();
 
     useEffect(()=> {
@@ -33,20 +32,11 @@ function Books({ searchBooks, firebase }: MyPropType) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        console.log(e.target.value)
-        searchBooks(e.target.value);
-    }   
-
     return (
         <div>
             <h1>HELLO THERE!!</h1>
-            <form>
-                <input type="search" onChange={handleChange}/>
-            </form>
             { 
-                !!list && list.books.map((bookId: any) => (
+                !!list && list.books.map((bookId: string) => (
                     <BookView id={bookId} key={bookId}/>
                 )) 
             }
@@ -61,7 +51,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({
     fetchBooks: fetchBooksAction,
-    searchBooks: searchBooksAction,
 }, dispatch)
 
 export default compose(

@@ -14,6 +14,7 @@ import Account from './Account'
 import PassForget from './PassForget'
 import Navigation from '../components/Navigation'
 import {withAuthentification} from '../components/AuthUserContext'
+import Search from './Search'
 
 
 function AppRouter() {
@@ -21,9 +22,12 @@ function AppRouter() {
         <Router>
             <Navigation />
             <Switch>
-                <Route path="/books">
+                <Page path="/books" title="MyBookList">
                     <Books />
-                </Route>
+                </Page>
+                <Page path="/search" title="Search">
+                    <Search />
+                </Page>
                 <Page path="/signin" title="SignIn">
                     <SignIn />
                 </Page>

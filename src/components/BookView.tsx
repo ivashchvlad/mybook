@@ -14,6 +14,7 @@ interface MyOwnProps {
 function BookView({book, id, getBookById}: MyOwnProps) {
     useEffect(() => {
         getBookById(id);
+        console.log('ok?')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     return (
@@ -22,6 +23,12 @@ function BookView({book, id, getBookById}: MyOwnProps) {
                 <>
                     <h3>{book.titleweb}</h3>
                     <h4>{book.authorweb}</h4>
+                    <div 
+                        dangerouslySetInnerHTML={
+                            {
+                                __html: book.flapcopy
+                            }
+                        }></div>
                 </>
             )}
         </div>
@@ -29,7 +36,7 @@ function BookView({book, id, getBookById}: MyOwnProps) {
 }
 
 const mapStateToProps = (state: RootState, ownProps: any) => ({
-    book: state.books.books.find((book: Book) => book.workid === ownProps.id)
+    book: state.books.books.find((book: Book) => book.isbn === ownProps.id)
 })
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({
     getBookById: getBookByIdAction

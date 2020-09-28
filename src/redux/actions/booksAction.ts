@@ -3,6 +3,7 @@ import Book from '../../interfaces/Book'
 import { AppThunk } from "../store"
 import axios from "axios"
 
+
 export function fetchBooksPending () {
     return {
         type: FETCH_BOOKS_PENDING
@@ -25,6 +26,7 @@ export function fetchBookSuccess(book: Book) {
 }
 
 export function fetchBooksError(error: Error) {
+    console.log(error);
     return {
         type: FETCH_BOOKS_ERROR,
         error,
@@ -36,9 +38,7 @@ export function fetchBooks(): AppThunk{
         dispatch(fetchBooksPending);
         axios.get('https://reststop.randomhouse.com/resources/works/', {
             params: {
-                start: 0,
                 max: 10,
-                expandLevel: 1,
                 search: "Pynchon",
             },
             headers: {
@@ -56,21 +56,20 @@ export function fetchBooks(): AppThunk{
 export function searchBooks(search: string): AppThunk{
     return (dispatch) => {
         dispatch(fetchBooksPending);
-        axios.get('https://reststop.randomhouse.com/resources/works/', {
+        axios.get('https://reststop.randomhouse.com/resources/titles/', {
             params: {
-                start: 0,
                 max: 10,
-                expandLevel: 1,
                 search,
             },
             headers: {
                 'Accept': 'application/json',
             }
         }).then((res) => {
-            if (!res.data.work) {
+            if (!res.data.title) {
+                
                 return;
             }
-            dispatch(fetchBooksSuccess(res.data.work))
+            dispatch(fetchBooksSuccess(res.data.title))
         }).catch(error => fetchBooksError(error));
     }
 }
@@ -78,12 +77,13 @@ export function searchBooks(search: string): AppThunk{
 export function getBookById(bookId: string): AppThunk {
     return (dispatch) => {
         dispatch(fetchBooksPending); 
-        axios.get(`https://reststop.randomhouse.com/resources/works/${bookId}`, {
+        axios.get(`https://reststop.randomhouse.com/resources/titles/${bookId}`, {
             headers: {
                 'Accept': 'application/json',
             }
         }).then((res) => {
             if(!res.data) {
+                console.log('NO DATA!')
                 return;
             }
             dispatch(fetchBookSuccess(res.data))
