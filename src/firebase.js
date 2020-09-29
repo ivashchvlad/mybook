@@ -1,4 +1,5 @@
 import app from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/auth'
 import 'firebase/firestore'
 
@@ -33,6 +34,12 @@ class Firebase {
 
     doPasswordUpdate = password =>
         this.auth.currentUser.updatePassword(password);
+
+    addBookToList = (id, book) => {
+        this.db.collection('lists').doc(id).update({
+            books: firebase.firestore.FieldValue.arrayUnion(book),
+        })
+    }
 
     user = uid => this.db.collection('users').doc(uid);
 

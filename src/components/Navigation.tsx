@@ -32,7 +32,7 @@ const NavigationAuth = () => (
             <Link to={'/account'}>Account</Link>
         </li>
         <li>
-            <Link to={'/book'}>Book</Link>
+            <Link to={'/books'}>Books</Link>
         </li>
         <li>
             <Link to={'/search'}>Search</Link>

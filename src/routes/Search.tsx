@@ -33,9 +33,13 @@ function Search({searchBooks, books}: MyPropType) {
             <form action="">
                 <input type="type" name="book" id="search" onChange={handleChange}/>
             </form>
-            { books.length ? books.map((book: Book) => (
-                <BookView id={book.isbn} key={book.isbn} />
-            )) : ''}
+            { books.length ? books.map((book: Book) => {
+
+
+                return (
+                <BookView id={book.isbn} key={book.isbn} add={true}/>
+            )}
+            ) : ''}
         </div>
     )
 }

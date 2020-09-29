@@ -58,7 +58,7 @@ export function searchBooks(search: string): AppThunk{
         dispatch(fetchBooksPending);
         axios.get('https://reststop.randomhouse.com/resources/titles/', {
             params: {
-                max: 10,
+                max: 5,
                 search,
             },
             headers: {
@@ -66,7 +66,6 @@ export function searchBooks(search: string): AppThunk{
             }
         }).then((res) => {
             if (!res.data.title) {
-                
                 return;
             }
             dispatch(fetchBooksSuccess(res.data.title))
