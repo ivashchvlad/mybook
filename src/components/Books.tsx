@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { fetchBooks as fetchBooksAction } from '../redux/actions/booksAction'
+import { fetchBooks as fetchBooksAction, clearBooks as clearBooksAction } from '../redux/actions/booksAction'
 import { RootState } from '../redux/store'
 import { bindActionCreators } from 'redux'
 import Book from '../interfaces/Book'
@@ -14,21 +14,23 @@ interface MyPropType {
     pending: boolean,
     error: Error,
     fetchBooks: Function,
+    clearBooks: Function,
     firebase: Firebase,
 }
 
-function Books({ firebase }: MyPropType) {
+function Books({ firebase, clearBooks }: MyPropType) {
     const [list, setList] = useState<any>();
 
     useEffect(()=> {
         firebase.list("7hC2oIreSfL7Tyvazida").get().then((doc) => {
             if (doc.exists) {
-                console.log(`${doc.id} => ${doc.data()}`);
                 setList(doc.data());
             } else
                 console.log('doc not found')
         })
-        
+        return () => {
+            clearBooks();
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -51,6 +53,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({
     fetchBooks: fetchBooksAction,
+    clearBooks: clearBooksAction,
 }, dispatch)
 
 export default compose(

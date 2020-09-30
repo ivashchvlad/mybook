@@ -19,7 +19,6 @@ interface MyOwnProps {
 function BookView({book, id, getBookById, add, firebase}: MyOwnProps) {
     useEffect(() => {
         if(!book) getBookById(id);
-        console.log('ok?')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 

@@ -12,15 +12,14 @@ interface MyPropType {
     books: Book[];
 }
 
-function Search({searchBooks, books}: MyPropType) {
-    const handleCallBack = useCallback(debounce((e:ChangeEvent<HTMLInputElement>) => {
-        if(e.target)
+function Search({ searchBooks, books }: MyPropType) {
+    const handleCallBack = useCallback(debounce((e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target)
             searchBooks(e.target.value);
         else console.log(e)
-        console.log('changed') 
     }, 500), []);
 
-    const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.persist();
         console.log(e.target);
@@ -31,15 +30,13 @@ function Search({searchBooks, books}: MyPropType) {
         <div>
             <h1>Search</h1>
             <form action="">
-                <input type="type" name="book" id="search" onChange={handleChange}/>
+                <input type="type" name="book" id="search" onChange={handleChange} />
             </form>
-            { books.length ? books.map((book: Book) => {
-
-
-                return (
-                <BookView id={book.isbn} key={book.isbn} add={true}/>
-            )}
-            ) : ''}
+            {
+                books.length ? books.map((book: Book) => (
+                    <BookView id={book.isbn} key={book.isbn} add={true} />
+                )) : ''
+            }
         </div>
     )
 }

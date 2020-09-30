@@ -1,4 +1,11 @@
-import { FETCH_BOOKS_ERROR, FETCH_BOOKS_PENDING, FETCH_BOOKS_SUCCESS, FETCH_BOOK_SUCCESS } from '../types/bookTypes'
+import { 
+    FETCH_BOOKS_ERROR, 
+    FETCH_BOOKS_PENDING, 
+    FETCH_BOOKS_SUCCESS, 
+    FETCH_BOOK_SUCCESS,
+    SEARCH_BOOKS_SUCCESS,
+    CLEAR_BOOKS,
+} from '../types/bookTypes'
 import Book from '../../interfaces/Book'
 import { AppThunk } from "../store"
 import axios from "axios"
@@ -30,6 +37,21 @@ export function fetchBooksError(error: Error) {
     return {
         type: FETCH_BOOKS_ERROR,
         error,
+    }
+}
+
+export function searchBooksSuccess(books: Book[]) {
+    return {
+        type: SEARCH_BOOKS_SUCCESS,
+        books,
+    }
+}
+
+export function clearBooks(): AppThunk {
+    return (dispatch) => {
+        dispatch({
+            type: CLEAR_BOOKS
+        })
     }
 }
 
@@ -68,7 +90,7 @@ export function searchBooks(search: string): AppThunk{
             if (!res.data.title) {
                 return;
             }
-            dispatch(fetchBooksSuccess(res.data.title))
+            dispatch(searchBooksSuccess(res.data.title))
         }).catch(error => fetchBooksError(error));
     }
 }
