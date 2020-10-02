@@ -21,7 +21,7 @@ interface MyPropType {
 function Books({ firebase, clearBooks }: MyPropType) {
     const [list, setList] = useState<any>();
 
-    useEffect(()=> {
+    useEffect(() => {
         firebase.list("7hC2oIreSfL7Tyvazida").get().then((doc) => {
             if (doc.exists) {
                 setList(doc.data());
@@ -31,20 +31,21 @@ function Books({ firebase, clearBooks }: MyPropType) {
         return () => {
             clearBooks();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
         <div>
             <h1>HELLO THERE!!</h1>
-            { 
+            {
                 !!list && list.books.map((bookId: string) => (
-                    <BookView id={bookId} key={bookId}/>
-                )) 
+                    <BookView id={bookId} key={bookId} />
+                ))
             }
         </div>
     )
 }
+
 const mapStateToProps = (state: RootState) => ({
     error: state.books.error,
     books: state.books.books,

@@ -22,7 +22,6 @@ function Search({ searchBooks, books }: MyPropType) {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.persist();
-        console.log(e.target);
         handleCallBack(e);
     }
 
