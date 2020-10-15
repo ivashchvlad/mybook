@@ -36,7 +36,7 @@ function Books({ firebase, clearBooks }: MyPropType) {
 
     return (
         <div>
-            <h1>HELLO THERE!!</h1>
+            <h1>Your Book List</h1>
             {
                 !!list && list.books.map((bookId: string) => (
                     <BookView id={bookId} key={bookId} />

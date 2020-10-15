@@ -2,7 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { withAuthUser } from '../components/AuthUserContext'
 
-import SignOut from './SignOut';
+import SignOut from './SignOut'
+import '../css/navigation.scss'
 
 const Navigation = ({ authUser }: any) => (
     <nav>

@@ -36,6 +36,7 @@ function SignIn({ firebase, history }: myProps) {
 
     return (
         <div>
+            <h1>SignIn</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     name="email"

@@ -22,26 +22,28 @@ interface MyOwnProps {
 const Article = styled(animated.article)`
     background: #191b21;
     color: white;
-    min-height: 300px;
+    min-height: 200px;
     padding: 2%;
-    margin: 5%;
+    margin: 2% 5% 2% 5%;
 `
 
 function BookView({ book, id, getBookById, add, firebase }: MyOwnProps) {
     const [opacity, setOpacity] = React.useState(0)
+    const props = useSpring({config: {mass: 5, tension: 500, friction: 80},
+        opacity: opacity,
+    });
 
     useEffect(() => {
-        if(book) setOpacity(1);
+        if(book) {
+            setOpacity(1);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [book])
 
     useEffect(() => {
         if (!book) getBookById(id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    const props = useSpring({config: {mass: 5, tension: 500, friction: 80},
-        opacity: opacity, 
-    });
 
     const handleClick = (e: MouseEvent) => {
         e.preventDefault();
