@@ -29,8 +29,9 @@ const PrivatePage: FunctionComponent<PrivatePageProps> = ({
 }
 
 function mapStateToProps(state: any){
+    console.log(state);
     return {
-        isLoggedIn: !state.session.auth.isEmpty,
+        isLoggedIn: state.session.authUser,
     };
 }
 

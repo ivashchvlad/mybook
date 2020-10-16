@@ -35,7 +35,7 @@ function AppRouter() {
                     <SignUp />
                 </Page>
                 <PrivatePage path="/account" title="Account"
-                component={<Account />} />
+                component={Account}/>
                 <Page path="/passforget" title="Forget Password">
                     <PassForget />
                 </Page>

@@ -11,14 +11,6 @@ import { compose } from 'redux'
 import styled from 'styled-components'
 import { useSpring, animated } from 'react-spring'
 
-interface MyOwnProps {
-    book: Book,
-    id: string,
-    getBookById: Function,
-    add?: boolean,
-    firebase?: Firebase
-}
-
 const Article = styled(animated.article)`
     background: #191b21;
     color: white;
@@ -26,6 +18,14 @@ const Article = styled(animated.article)`
     padding: 2%;
     margin: 2% 5% 2% 5%;
 `
+
+interface MyOwnProps {
+    book: Book,
+    id: string,
+    getBookById: Function,
+    add?: boolean,
+    firebase?: Firebase
+}
 
 function BookView({ book, id, getBookById, add, firebase }: MyOwnProps) {
     const [opacity, setOpacity] = React.useState(0)
