@@ -1,6 +1,7 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../components/FirebaseContext'
+import { Form, Input, Button} from '../components/styledComponents'
 
 function SignUp({firebase, history}: any) {
     const [username, setUsername] = useState('')
@@ -41,41 +42,41 @@ function SignUp({firebase, history}: any) {
     return (
         <div>
             <h1>Sign up</h1>
-            <form onSubmit={handleSubmit}>
-            <input
-          name="username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          name="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={e => setPasswordOne(e.target.value)}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={e => setPasswordTwo(e.target.value)}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign Up
-        </button>
+            <Form onSubmit={handleSubmit}>
+              <Input
+                name="username"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                type="text"
+                placeholder="Full Name"
+              />
+              <Input
+                name="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                type="text"
+                placeholder="Email Address"
+              />
+              <Input
+                name="passwordOne"
+                value={passwordOne}
+                onChange={e => setPasswordOne(e.target.value)}
+                type="password"
+                placeholder="Password"
+              />
+              <Input
+                name="passwordTwo"
+                value={passwordTwo}
+                onChange={e => setPasswordTwo(e.target.value)}
+                type="password"
+                placeholder="Confirm Password"
+              />
+              <Button disabled={isInvalid} type="submit">
+                Sign Up
+              </Button>
 
-        {error && <p>{error.message}</p>}
-            </form>
+              {error && <p>{error.message}</p>}
+            </Form>
         </div>
     )
 }

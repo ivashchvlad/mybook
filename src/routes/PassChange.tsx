@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-
+import { Form, Input, Button} from '../components/styledComponents'
 import { withFirebase } from '../components/FirebaseContext';
 
 
@@ -24,32 +24,32 @@ function PasswordChangeForm({ firebase }: any) {
         e.preventDefault();
     };
     return (
-        <form onSubmit={handleSubmit}>
-            <input
+        <Form onSubmit={handleSubmit}>
+            <Input
                 name="passwordOne"
                 value={passwordOne}
                 onChange={e => setPasswordOne(e.target.value)}
                 type="password"
                 placeholder="New Password"
             />
-            <input
+            <Input
                 name="passwordTwo"
                 value={passwordTwo}
                 onChange={e => setPasswordTwo(e.target.value)}
                 type="password"
                 placeholder="Confirm New Password"
             />
-            <button disabled={
+            <Button disabled={
                 passwordOne !== passwordTwo ||
                 passwordOne === ''
             }
                 type="submit"
             >
                 Reset My Password
-                </button>
+            </Button>
 
             {error && <p>{error.message}</p>}
-        </form>
+        </Form>
     );
 }
 

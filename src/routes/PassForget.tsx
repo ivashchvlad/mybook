@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { Form, Input, Button} from '../components/styledComponents'
 import { withFirebase } from '../components/FirebaseContext';
 
 const PassForget = () => (
     <div>
-        <h1>PasswordForget</h1>
+        <h1>Forget Password?</h1>
         <PasswordForgetForm />
     </div>
 );
@@ -29,20 +29,20 @@ function PasswordForgetFormBase({ firebase }: any) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
+        <Form onSubmit={handleSubmit}>
+            <Input
                 name="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 type="text"
                 placeholder="Email Address"
             />
-            <button disabled={email === ''} type="submit">
+            <Button disabled={email === ''} type="submit">
                 Reset My Password
-        </button>
+        </Button>
 
             {error && <p>{error.message}</p>}
-        </form>
+        </Form>
     );
 }
 

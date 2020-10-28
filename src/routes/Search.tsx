@@ -6,6 +6,7 @@ import { RootState } from '../redux/store'
 import Book from '../interfaces/Book'
 import BookView from '../components/BookView'
 import { debounce } from "lodash"
+import { Form, Input } from '../components/styledComponents'
 
 interface MyPropType {
     searchBooks: Function;
@@ -28,9 +29,9 @@ function Search({ searchBooks, books }: MyPropType) {
     return (
         <div>
             <h1>Search</h1>
-            <form action="">
-                <input type="type" name="book" id="search" onChange={handleChange} />
-            </form>
+            <Form action="">
+                <Input type="type" name="book" id="search" onChange={handleChange} />
+            </Form>
             {
                 books.length ? books.map((book: Book) => (
                     <BookView id={book.isbn} key={book.isbn} add={true} />
