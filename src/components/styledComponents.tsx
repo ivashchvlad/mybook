@@ -40,3 +40,11 @@ export const Button = styled.button`
         border-width: 3px;
     }
 `
+
+export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1600;
+`

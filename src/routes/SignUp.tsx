@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../components/FirebaseContext'
-import { Form, Input, Button} from '../components/styledComponents'
+import { Form, Input, Button, Container } from '../components/styledComponents'
 
 function SignUp({firebase, history}: any) {
     const [username, setUsername] = useState('')
@@ -40,7 +40,7 @@ function SignUp({firebase, history}: any) {
     };
 
     return (
-        <div>
+        <Container>
             <h1>Sign up</h1>
             <Form onSubmit={handleSubmit}>
               <Input
@@ -77,7 +77,7 @@ function SignUp({firebase, history}: any) {
 
               {error && <p>{error.message}</p>}
             </Form>
-        </div>
+        </Container>
     )
 }
 

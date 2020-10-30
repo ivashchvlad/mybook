@@ -1,16 +1,17 @@
-import React from 'react';
+import React from 'react'
 
-import PassForget from './PassForget';
-import PassChange from './PassChange';
+import PassForget from './PassForget'
+import PassChange from './PassChange'
 
+import { Container } from '../components/styledComponents'
 
 
 const Account = () => (
-    <div>
+    <Container>
         <h1>Account Page</h1>
         <PassForget />
         <PassChange />
-    </div>
+    </Container>
 );
 
 export default Account;
