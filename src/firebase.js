@@ -41,6 +41,12 @@ class Firebase {
         })
     }
 
+    deleteBookFromList = (listId, bookId) => {
+        this.db.collection('lists').doc(listId).update({
+            books: firebase.firestore.FieldValue.arrayRemove(bookId),
+        })
+    }
+
     user = uid => this.db.collection('users').doc(uid);
 
     users = () => this.db.collection('users');

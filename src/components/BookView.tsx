@@ -47,7 +47,9 @@ function BookView({ book, id, getBookById, add, firebase }: MyOwnProps) {
 
     const handleClick = (e: MouseEvent) => {
         e.preventDefault();
-        firebase?.addBookToList('7hC2oIreSfL7Tyvazida', book.isbn)
+        add ?
+        firebase?.addBookToList('7hC2oIreSfL7Tyvazida', book.isbn) :
+        firebase?.deleteBookFromList('7hC2oIreSfL7Tyvazida', book.isbn);
     }
     return (
         <Article className="book" style={props}>
@@ -65,9 +67,9 @@ function BookView({ book, id, getBookById, add, firebase }: MyOwnProps) {
                 </>
             )}
             {
-                (add) && (
-                    <button onClick={handleClick}>ADD this to the list</button>
-                )
+                    <button onClick={handleClick}>
+                        { add ? "ADD this to the list" : "Delete this from my list"}
+                    </button>
             }
         </Article>
     )

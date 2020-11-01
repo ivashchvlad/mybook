@@ -8,6 +8,8 @@ import { withFirebase } from '../components/FirebaseContext'
 import { compose } from 'redux'
 import Firebase from '../firebase'
 import BookView from './BookView'
+import Loader from 'react-loader-spinner'
+import {Container} from '../components/styledComponents'
 
 interface MyPropType {
     books: Book[],
@@ -35,14 +37,23 @@ function Books({ firebase, clearBooks }: MyPropType) {
     }, [])
 
     return (
-        <div>
+        <Container>
             <h1>Your Book List</h1>
             {
-                !!list && list.books.map((bookId: string) => (
+                !list? (
+                    <Loader
+                        type="Puff"
+                        color="#00BFFF"
+                        height={100}
+                        width={100}
+                        timeout={3000} //3 secs
+
+                    />
+                ) : list.books.map((bookId: string) => (
                     <BookView id={bookId} key={bookId} />
                 ))
             }
-        </div>
+        </Container>
     )
 }
 
