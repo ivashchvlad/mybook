@@ -1,27 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import { fetchBooks as fetchBooksAction, clearBooks as clearBooksAction } from '../redux/actions/booksAction'
-import { RootState } from '../redux/store'
-import { bindActionCreators } from 'redux'
-import Book from '../interfaces/Book'
+import { useDispatch } from 'react-redux'
+import { clearBooks } from '../redux/actions/booksAction'
 import { withFirebase } from '../components/FirebaseContext'
-import { compose } from 'redux'
 import Firebase from '../firebase'
 import BookView from './BookView'
 import Loader from 'react-loader-spinner'
 import {Container} from '../components/styledComponents'
 
 interface MyPropType {
-    books: Book[],
-    pending: boolean,
-    error: Error,
-    fetchBooks: Function,
-    clearBooks: Function,
     firebase: Firebase,
 }
 
-function Books({ firebase, clearBooks }: MyPropType) {
+function Books({ firebase }: MyPropType) {
     const [list, setList] = useState<any>();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         firebase.list("7hC2oIreSfL7Tyvazida").get().then((doc) => {
@@ -31,7 +23,7 @@ function Books({ firebase, clearBooks }: MyPropType) {
                 console.log('doc not found')
         })
         return () => {
-            clearBooks();
+            dispatch(clearBooks());
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -57,18 +49,4 @@ function Books({ firebase, clearBooks }: MyPropType) {
     )
 }
 
-const mapStateToProps = (state: RootState) => ({
-    error: state.books.error,
-    books: state.books.books,
-    pending: state.books.pending,
-})
-
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({
-    fetchBooks: fetchBooksAction,
-    clearBooks: clearBooksAction,
-}, dispatch)
-
-export default compose(
-    withFirebase,
-    connect(mapStateToProps, mapDispatchToProps)
-)(Books)
+export default withFirebase(Books)

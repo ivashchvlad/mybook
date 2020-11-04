@@ -1,8 +1,8 @@
 import React, { useEffect, MouseEvent } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { RootState } from '../redux/store'
-import { getBookById as getBookByIdAction } from '../redux/actions/booksAction'
+import { getBookById } from '../redux/actions/booksAction'
 import Book from '../interfaces/Book'
 import Firebase from '../firebase'
 import { withFirebase } from '../components/FirebaseContext'
@@ -20,18 +20,27 @@ const Article = styled(animated.article)`
 `
 
 interface MyOwnProps {
-    book: Book,
     id: string,
-    getBookById: Function,
     add?: boolean,
     firebase?: Firebase
 }
 
-function BookView({ book, id, getBookById, add, firebase }: MyOwnProps) {
+function BookView({ id, add, firebase }: MyOwnProps) {
     const [opacity, setOpacity] = React.useState(0)
+    const book = useSelector((state: RootState) => 
+        state.books.books.find((book: Book) => 
+            book.isbn === id
+        )
+    )
+    const dispatch = useDispatch();
     const props = useSpring({config: {mass: 5, tension: 500, friction: 80},
         opacity: opacity,
     });
+
+    useEffect(() => {
+        if (!book) dispatch(getBookById(id));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
         if(book) {
@@ -39,11 +48,6 @@ function BookView({ book, id, getBookById, add, firebase }: MyOwnProps) {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [book])
-
-    useEffect(() => {
-        if (!book) getBookById(id);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     const handleClick = (e: MouseEvent) => {
         e.preventDefault();
@@ -75,16 +79,4 @@ function BookView({ book, id, getBookById, add, firebase }: MyOwnProps) {
     )
 }
 
-const mapStateToProps = (state: RootState, ownProps: any) => ({
-    book: state.books.books.find((book: Book) => book.isbn === ownProps.id)
-})
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({
-    getBookById: getBookByIdAction
-}, dispatch)
-
-export default compose(
-    withFirebase,
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    ))(BookView)
+export default withFirebase(BookView)
