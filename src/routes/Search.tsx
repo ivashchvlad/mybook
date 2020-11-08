@@ -1,24 +1,29 @@
 import React, { useCallback, ChangeEvent } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { searchBooks as searchBooksAction } from '../redux/actions/booksAction'
+import { useSelector, useDispatch } from 'react-redux'
+import { searchBooks } from '../redux/actions/booksAction'
 import { RootState } from '../redux/store'
 import Book from '../interfaces/Book'
 import BookView from '../components/BookView'
 import { debounce } from "lodash"
+import Loader from 'react-loader-spinner'
 import { Form, Input, Container } from '../components/styledComponents'
 
-interface MyPropType {
-    searchBooks: Function;
-    books: Book[];
-}
+function Search() {
+    const books = useSelector((state: RootState) =>
+        state.books.books
+    );
 
-function Search({ searchBooks, books }: MyPropType) {
-    const handleCallBack = useCallback(debounce((e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target)
-            searchBooks(e.target.value);
-        else console.log(e)
-    }, 500), []);
+    const dispatch = useDispatch();
+
+    const handleCallBack = useCallback(
+        debounce(
+            (e: ChangeEvent<HTMLInputElement>) => {
+                if (e.target)
+                    dispatch(searchBooks(e.target.value));
+                else console.log(e)
+            }, 500
+        ), []
+    );
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -33,6 +38,17 @@ function Search({ searchBooks, books }: MyPropType) {
                 <Input type="type" name="book" id="search" onChange={handleChange} />
             </Form>
             {
+                !books.length &&
+                <Loader
+                    type="Puff"
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                    timeout={3000} //3 secs
+
+                />
+            }
+            {
                 books.length ? books.map((book: Book) => (
                     <BookView id={book.isbn} key={book.isbn} add={true} />
                 )) : ''
@@ -41,12 +57,4 @@ function Search({ searchBooks, books }: MyPropType) {
     )
 }
 
-const mapState = (state: RootState) => ({
-    books: state.books.books,
-})
-
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({
-    searchBooks: searchBooksAction,
-}, dispatch)
-
-export default connect(mapState, mapDispatchToProps)(Search)
+export default Search
