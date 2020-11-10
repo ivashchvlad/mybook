@@ -80,7 +80,7 @@ export function searchBooks(search: string): AppThunk{
         dispatch(fetchBooksPending);
         axios.get('https://reststop.randomhouse.com/resources/titles/', {
             params: {
-                max: 5,
+                max: 6,
                 search,
             },
             headers: {

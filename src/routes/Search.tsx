@@ -21,7 +21,7 @@ function Search() {
                 if (e.target)
                     dispatch(searchBooks(e.target.value));
                 else console.log(e)
-            }, 500
+            }, 300
         ), []
     );
 
@@ -44,8 +44,6 @@ function Search() {
                     color="#00BFFF"
                     height={100}
                     width={100}
-                    timeout={3000} //3 secs
-
                 />
             }
             {

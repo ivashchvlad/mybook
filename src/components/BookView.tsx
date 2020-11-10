@@ -8,10 +8,10 @@ import { withFirebase } from '../components/FirebaseContext'
 import styled from 'styled-components'
 import Loader from 'react-loader-spinner'
 import { Button } from '../components/styledComponents'
-import { useSpring, animated } from 'react-spring'
+import { Motion, spring } from 'react-motion'
 
 
-export const Article = styled(animated.article)`
+export const Article = styled.article`
     background: #191b21;
     color: white;
     min-height: 200px;
@@ -27,6 +27,15 @@ interface MyOwnProps {
 }
 
 function BookView({ id, add, firebase }: MyOwnProps) {
+
+    // const [spring, setOpacity] = useSpring(() => ({
+    //     config: { mass: 5, tension: 500, friction: 80 },
+    //     from: { opacity: 0 },
+    //     to: {}
+    // }))
+
+    const [opacity, setOpacity] = React.useState<any>(0)
+
     const book = useSelector((state: RootState) =>
         state.books.books.find((book: Book) =>
             book.isbn === id
@@ -35,22 +44,16 @@ function BookView({ id, add, firebase }: MyOwnProps) {
 
     const dispatch = useDispatch()
 
-    const [spring, setOpacity] = useSpring(() => ({
-        config: { mass: 5, tension: 500, friction: 80 },
-        from: { opacity: 0 },
-        to: {}
-    }))
-
     useEffect(() => {
         if (!book) dispatch(getBookById(id));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
+        console.log(id)
         if (book) {
-            setOpacity({to: {opacity: 1}})
+            setOpacity((1))
         }
-        console.log(spring);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [book])
 
@@ -61,35 +64,39 @@ function BookView({ id, add, firebase }: MyOwnProps) {
             firebase?.deleteBookFromList('7hC2oIreSfL7Tyvazida', book.isbn);
     }
     return (
-        <Article id={id} className="book" style={spring}>
-            { !book ?
-                <Loader
-                    type="ThreeDots"
-                    color="#00BFFF"
-                    height={100}
-                    width={100}
-                    timeout={3000} //3 secs
+        <Motion style={{ x: spring(opacity ? 1 : 0) }}>
+            { ({ x }) => (
+                <Article id={`${x} look`} className="book"
+                    style={{ opacity: `${x}` }}>
+                    { !book ?
+                        <Loader
+                            type="ThreeDots"
+                            color="#00BFFF"
+                            height={100}
+                            width={100}
+                            timeout={3000} //3 secs
 
-                /> :
-                (
-                    <>
-                        <h3>{book.titleweb}</h3>
-                        <h4>{book.authorweb}</h4>
-                        <div
-                            dangerouslySetInnerHTML={
-                                {
-                                    __html: book.flapcopy
-                                }
-                            }>
-                        </div>
-                    </>
-                )}
-            {
-                <Button onClick={handleClick}>
-                    {add ? "ADD this to the list" : "Delete this from my list"}
-                </Button>
-            }
-        </Article>
+                        /> :
+                        (
+                            <>
+                                <h3>{book.titleweb}</h3>
+                                <h4>{book.authorweb}</h4>
+                                <div
+                                    dangerouslySetInnerHTML={
+                                        {
+                                            __html: book.flapcopy
+                                        }
+                                    }>
+                                </div>
+                            </>
+                        )}
+                    {
+                        <Button onClick={handleClick}>
+                            {add ? "ADD this to the list" : "Delete this from my list"}
+                        </Button>
+                    }
+                </Article>)}
+        </Motion>
     )
 }
 

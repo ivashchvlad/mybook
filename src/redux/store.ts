@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, Action } from 'redux'
 import thunk, { ThunkAction } from 'redux-thunk'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import bookReducer from './reducers/booksReducer'
 import sessionReducer from './reducers/sessionReducer'
@@ -12,7 +13,9 @@ const rootReducer = combineReducers({
 }
 )
 
-let store = createStore(rootReducer, applyMiddleware(thunk));
+let store = createStore(rootReducer, composeWithDevTools(
+    applyMiddleware(thunk),
+));
 export default store;
 
 export type RootState = ReturnType<typeof rootReducer>;
