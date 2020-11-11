@@ -57,7 +57,7 @@ export function clearBooks(): AppThunk {
 
 export function fetchBooks(): AppThunk{
     return (dispatch) => {
-        dispatch(fetchBooksPending);
+        dispatch(fetchBooksPending());
         axios.get('https://reststop.randomhouse.com/resources/works/', {
             params: {
                 max: 10,
@@ -77,7 +77,8 @@ export function fetchBooks(): AppThunk{
 
 export function searchBooks(search: string): AppThunk{
     return (dispatch) => {
-        dispatch(fetchBooksPending);
+        console.log('wat')
+        dispatch(fetchBooksPending());
         axios.get('https://reststop.randomhouse.com/resources/titles/', {
             params: {
                 max: 6,
@@ -97,7 +98,7 @@ export function searchBooks(search: string): AppThunk{
 
 export function getBookById(bookId: string): AppThunk {
     return (dispatch) => {
-        dispatch(fetchBooksPending); 
+        dispatch(fetchBooksPending()); 
         axios.get(`https://reststop.randomhouse.com/resources/titles/${bookId}`, {
             headers: {
                 'Accept': 'application/json',

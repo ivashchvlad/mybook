@@ -50,7 +50,6 @@ function BookView({ id, add, firebase }: MyOwnProps) {
     }, [])
 
     useEffect(() => {
-        console.log(id)
         if (book) {
             setOpacity((1))
         }
@@ -64,10 +63,10 @@ function BookView({ id, add, firebase }: MyOwnProps) {
             firebase?.deleteBookFromList('7hC2oIreSfL7Tyvazida', book.isbn);
     }
     return (
-        <Motion style={{ x: spring(opacity ? 1 : 0) }}>
-            { ({ x }) => (
-                <Article id={`${x} look`} className="book"
-                    style={{ opacity: `${x}` }}>
+        <Motion style={{ _opacity: spring(opacity ? 1 : 0) }}>
+            { ({ _opacity }) => (
+                <Article id={id} className="book"
+                    style={{ opacity: _opacity }}>
                     { !book ?
                         <Loader
                             type="ThreeDots"

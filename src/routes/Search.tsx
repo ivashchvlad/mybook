@@ -12,6 +12,9 @@ function Search() {
     const books = useSelector((state: RootState) =>
         state.books.books
     );
+    const pending = useSelector((state: RootState) =>
+        state.books.pending
+    );
 
     const dispatch = useDispatch();
 
@@ -38,7 +41,7 @@ function Search() {
                 <Input type="type" name="book" id="search" onChange={handleChange} />
             </Form>
             {
-                !books.length &&
+                pending &&
                 <Loader
                     type="Puff"
                     color="#00BFFF"
