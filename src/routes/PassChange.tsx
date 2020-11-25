@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-import { Form, Input, Button } from '../components/styledComponents'
+import { Form, Input, Button, Container } from '../components/styledComponents'
 import { withFirebase } from '../components/FirebaseContext';
 
 
@@ -24,7 +24,7 @@ function PasswordChangeForm({ firebase }: any) {
         e.preventDefault();
     };
     return (
-        <>
+        <Container>
             <h1>Want to change password?</h1>
             <Form onSubmit={handleSubmit}>
                 <Input
@@ -52,7 +52,7 @@ function PasswordChangeForm({ firebase }: any) {
 
                 {error && <p>{error.message}</p>}
             </Form>
-        </>
+        </Container>
     );
 }
 

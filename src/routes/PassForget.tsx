@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Input, Button} from '../components/styledComponents'
+import { Form, Input, Button, Container} from '../components/styledComponents'
 import { withFirebase } from '../components/FirebaseContext';
 
 const PassForget = () => (
-    <div>
+    <Container>
         <h1>Forget Password?</h1>
         <PasswordForgetForm />
-    </div>
+    </Container>
 );
 
 function PasswordForgetFormBase({ firebase }: any) {
