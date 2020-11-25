@@ -1,14 +1,17 @@
-import React, { useCallback, ChangeEvent } from 'react'
+import React, { useState, useCallback, ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { searchBooks } from '../redux/actions/booksAction'
+import { searchBooks, clearBooks } from '../redux/actions/booksAction'
 import { RootState } from '../redux/store'
 import Book from '../interfaces/Book'
 import BookView from '../components/BookView'
 import { debounce } from "lodash"
 import Loader from 'react-loader-spinner'
-import { Form, Input, Container } from '../components/styledComponents'
+import { Form, Input, Container, Label } from '../components/styledComponents'
+
+
 
 function Search() {
+    const [input, SetInput] = useState('');
     const books = useSelector((state: RootState) =>
         state.books.books
     );
@@ -21,8 +24,12 @@ function Search() {
     const handleCallBack = useCallback(
         debounce(
             (e: ChangeEvent<HTMLInputElement>) => {
-                if (e.target)
-                    dispatch(searchBooks(e.target.value));
+                if (e.target){
+                    e.target.value? 
+                    dispatch(searchBooks(e.target.value)) :
+                    dispatch(clearBooks())
+                    ;
+                }
                 else console.log(e)
             }, 300
         ), []
@@ -31,6 +38,7 @@ function Search() {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.persist();
+        SetInput(e.target.value);
         handleCallBack(e);
     }
 
@@ -49,6 +57,11 @@ function Search() {
                     width={100}
                 />
             }
+
+            {
+                !input && <Label>No searches yet...</Label>
+            }
+
             {
                 books.length ? books.map((book: Book) => (
                     <BookView id={book.isbn} key={book.isbn} add={true} />

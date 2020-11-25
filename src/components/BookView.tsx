@@ -15,9 +15,18 @@ export const Article = styled.article`
     background: #191b21;
     color: white;
     min-height: 200px;
-    width: 1200px;
+    width: 1000px;
     padding: 2%;
-    margin: 2% 5% 2% 5%;
+    margin: 2% 6% 2% 6%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+`
+
+const BookButton = styled(Button)`
+    margin-top: 20px;
+    width: 220px;
 `
 
 interface MyOwnProps {
@@ -27,12 +36,6 @@ interface MyOwnProps {
 }
 
 function BookView({ id, add, firebase }: MyOwnProps) {
-
-    // const [spring, setOpacity] = useSpring(() => ({
-    //     config: { mass: 5, tension: 500, friction: 80 },
-    //     from: { opacity: 0 },
-    //     to: {}
-    // }))
 
     const [opacity, setOpacity] = React.useState<any>(0)
 
@@ -90,9 +93,9 @@ function BookView({ id, add, firebase }: MyOwnProps) {
                             </>
                         )}
                     {
-                        <Button onClick={handleClick}>
-                            {add ? "ADD this to the list" : "Delete this from my list"}
-                        </Button>
+                        <BookButton onClick={handleClick} >
+                            {add ? "Add this to the list" : "Delete this from my list"}
+                        </BookButton>
                     }
                 </Article>)}
         </Motion>
