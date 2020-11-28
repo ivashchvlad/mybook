@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react'
 import { withFirebase } from '../components/FirebaseContext'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../redux/store'
 
 
 const AuthUserContext = React.createContext(undefined);
 
 const withAuthentification = (Component: any) => {
     function WithAuth(props: any) {
+        const dispatch = useDispatch();
         useEffect(() => {
             props.firebase.auth.onAuthStateChanged((authUser: any) => {
-                props.onSetAuthUser(authUser);
+                dispatch({ type: 'AUTH_USER_SET', authUser });
             }, () => {
                 props.onSetAuthUser(null);
             });
@@ -18,24 +19,17 @@ const withAuthentification = (Component: any) => {
         }, []);
         return (<Component {...props} />)
     }
-    const mapDispatchToProps = (dispatch: any) => ({
-        onSetAuthUser: (authUser: any) =>
-            dispatch({ type: 'AUTH_USER_SET', authUser }),
-    });
-    return compose(
-        withFirebase,
-        connect(null, mapDispatchToProps)
-    )(WithAuth);
+    
+    return withFirebase(WithAuth);
 }
 
-const withAuthUser = (Component: any) => {
-    const mapStateToProps = (state: any) => ({
-        authUser: state.session.authUser,
-    })
+const withAuthUser = (Component: any) => (props: any) => {
+    const authUser = useSelector((state: RootState) => 
+        state.session.authUser
+    )
 
-    return connect(mapStateToProps)((props: any) => (
-        <Component authUser={props.authUser} {...props} />
-    ))
+
+    return <Component authUser={authUser} {...props} />
 }
 
 
